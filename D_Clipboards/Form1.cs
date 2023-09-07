@@ -71,8 +71,8 @@ namespace D_Clipboards
         {
             try
             {
-                //string host = "http://localhost:3000";
-                string host = "http://cqdplus.com";
+                string host = "http://103.200.20.251:3000";
+                //string host = "http://cqdplus.com";
                 socket = new SocketIO(host);
 
                 socket.OnConnected += async (sender, e) =>
@@ -142,38 +142,35 @@ namespace D_Clipboards
                 return SetWindowsHookEx(WH_KEYBOARD_LL, proc, GetModuleHandle(curModule.ModuleName), 0);
             }
         }
-        private bool controlKey = false;
+        private bool ZKey = false;
         private bool winKey = false;
         private bool isKeyPressed = false;
         private DateTime startTime;
 
         private bool keyShortOn(int code)
         {
-            const int ControlKeyCode = 162;
+            const int ZKeyCode = 90;
             const int WinKeyCode = 91;
             const int TimeThreshold = 500; // 200ms
-
-
-            if (code == ControlKeyCode)
+            if (code == WinKeyCode)
             {
                 startTime = DateTime.Now;
-                controlKey = true;
-            }
-            if (code == WinKeyCode && controlKey)
-            {
                 winKey = true;
             }
+            if (code == ZKeyCode && winKey)
+            { 
+                ZKey = true;
+            } 
 
-
-            if (controlKey && (DateTime.Now - startTime).TotalMilliseconds > TimeThreshold)
+            if (ZKey && (DateTime.Now - startTime).TotalMilliseconds > TimeThreshold)
             {
-                controlKey = false;
+                ZKey = false;
                 winKey = false;
                 isKeyPressed = false;
             }
 
 
-            if (controlKey && winKey && !isKeyPressed)
+            if (ZKey && winKey && !isKeyPressed)
             {
                 isKeyPressed = true;
 
@@ -181,7 +178,7 @@ namespace D_Clipboards
 
             if (isKeyPressed && (DateTime.Now - startTime).TotalMilliseconds <= TimeThreshold)
             {
-                controlKey = false;
+                ZKey = false;
                 winKey = false;
                 isKeyPressed = false;
                 return true;
@@ -505,12 +502,35 @@ namespace D_Clipboards
 
         void statusClip(string text)
         {
+            try
+            {
+                Invoke(new Action(() =>
+                {
+                    lbStatus.Text = text;
+                }));
+            }
+            catch { }
            
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label3_Click(object sender, EventArgs e)
+        {
             Invoke(new Action(() =>
             {
-                //txtStatus.Text = "->" + text + Environment.NewLine + txtStatus.Text;
+                if (autoStartupCheckBox.Checked)
+                {
+                    autoStartupCheckBox.Checked = false;
+                }
+                else
+                {
+                    autoStartupCheckBox.Checked = true;
+                }
             }));
-           
         }
     }
 }
