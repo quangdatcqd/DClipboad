@@ -1,5 +1,6 @@
 ﻿using System; 
-using System.Drawing; 
+using System.Drawing;
+using System.Runtime.InteropServices;
 using System.Windows.Forms;
 
 namespace D_Clipboards
@@ -8,23 +9,33 @@ namespace D_Clipboards
 
     public class OverlayForm : Form
     {
+        // Import hàm SetWindowPos từ User32.dll
+        [DllImport("user32.dll")]
+        private static extern bool SetWindowPos(IntPtr hWnd, IntPtr hWndInsertAfter, int x, int y, int cx, int cy, uint uFlags);
+
+        // Hằng số cho SetWindowPos
+        private const int HWND_TOPMOST = -1;
+        private const uint SWP_NOMOVE = 0x0002;
+        private const uint SWP_NOSIZE = 0x0001;
         private OverlayLayer overlayLayer;
         public Bitmap screenshot;
         public Rectangle selection;
-        public OverlayForm(Bitmap screenshot)
-        {
+        public OverlayForm(Bitmap screenshot )
+        { 
             this.Cursor = Cursors.Cross;
             // Tạo form overlay và thiết lập thuộc tính để đảm bảo rằng nó sẽ vẽ lên tất cả các cửa sổ ứng dụng khác
             this.FormBorderStyle = FormBorderStyle.None;
             this.ShowInTaskbar = false;
             this.TopMost = true;
-            this.WindowState = FormWindowState.Maximized;
+            StartPosition = FormStartPosition.Manual;
             this.BackgroundImage = screenshot;
-            this.screenshot = screenshot; 
+            this.screenshot = screenshot;
+            this.BackgroundImageLayout = ImageLayout.Zoom; 
+          
+            //this.WindowState = FormWindowState.Maximized;
 
             // Tạo một instance của lớp phủ
-            this.overlayLayer = new OverlayLayer();
-
+            this.overlayLayer = new OverlayLayer(); 
             // Thêm lớp phủ vào lớp overlay
             this.Controls.Add(this.overlayLayer);
 
@@ -39,7 +50,16 @@ namespace D_Clipboards
 
         }
 
-        // ...
+
+
+
+        protected override void OnShown(EventArgs e)
+        {
+            base.OnShown(e);
+
+            // Đặt cửa sổ của bạn lên đỉnh
+            SetWindowPos(this.Handle, (IntPtr)HWND_TOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE);
+        }
 
         private void OverlayLayer_MouseDown(object sender, MouseEventArgs e)
         {

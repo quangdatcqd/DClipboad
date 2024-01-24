@@ -58,7 +58,7 @@ namespace D_Clipboards
                 if(clipboardText != getTextTemp)
                 {
                     var payload = new dataSocket { ID = RoomID, Message = clipboardText };
-                    await socket.EmitAsync("copy", payload);
+                    //await socket.EmitAsync("copy", payload);
                     getTextTemp = clipboardText;
                 }
                 
@@ -111,7 +111,7 @@ namespace D_Clipboards
         private void InitializeNotifyIcon()
         {
             notifyIcon = new NotifyIcon();
-            notifyIcon.Icon = new Icon("C:\\Users\\Administrator\\Desktop\\WORK\\DClipboard\\D_Clipboard\\D_Clipboard\\download.ico"); // Đặt biểu tượng cho NotifyIcon
+            notifyIcon.Icon = new Icon("D:\\C# TOOL\\DClipboad\\D_Clipboards\\download.ico"); // Đặt biểu tượng cho NotifyIcon
             notifyIcon.Visible = true; // Hiển thị NotifyIcon trong System Tray
             notifyIcon.Text = "D Clipboard";
             notifyIcon.MouseMove += NotifyIcon_MouseMove;
@@ -188,8 +188,10 @@ namespace D_Clipboards
                 return false;
             }
         }
+        
         private IntPtr HookCallback(int nCode, IntPtr wParam, IntPtr lParam)
         {
+
             if (nCode >= 0 && (wParam == (IntPtr)WM_KEYDOWN || wParam == (IntPtr)WM_KEYUP))
             {
                 int vkCode = Marshal.ReadInt32(lParam);
@@ -201,8 +203,30 @@ namespace D_Clipboards
                 {
                     bool onShortKey = keyShortOn(vkCode);
                     if (onShortKey)
-                    {
-                        RunApp();
+                    { 
+                        // Chụp màn hình và tạo bitmap
+                        if (overlayForm != null && overlayForm.Visible) {
+                            if (overlayForm.InvokeRequired)
+                            {
+                                overlayForm.Invoke(new Action(() => overlayForm.Close()));
+                            }
+                            else
+                            {
+                                overlayForm.Close();
+                            }
+                        }
+                        Screen[] screens = Screen.AllScreens;
+                        int totalWidth =0;
+                        int totalHeight= 0;
+                        foreach (Screen screen in screens)
+                        {
+                            totalWidth += screen.Bounds.Width;
+
+                            if (screen.Bounds.Height > totalHeight) totalHeight = screen.Bounds.Height;
+
+                        }
+                        RunApp(totalWidth, totalHeight);
+
                     }
                 }
                 else if (wParam == (IntPtr)WM_KEYUP)
@@ -213,34 +237,27 @@ namespace D_Clipboards
 
             return CallNextHookEx(keyboardHookId, nCode, wParam, lParam);
         }
-
-
-        void RunApp()
+      
+        void RunApp(int Width, int Height)
         {
             new Thread(() =>
-            {
-
-                // Chụp màn hình và tạo bitmap
-                Rectangle screenBounds = Screen.GetBounds(Point.Empty);
-                Bitmap screenshot = new Bitmap(screenBounds.Width, screenBounds.Height);
-                using (Graphics g = Graphics.FromImage(screenshot))
+            { 
+                Bitmap screenshot = new Bitmap(Width, Height);
+                using(Graphics g =   Graphics.FromImage(screenshot))
                 {
-                    g.CopyFromScreen(Point.Empty, Point.Empty, screenBounds.Size);
+                    g.CopyFromScreen(0, 0, 0, 0, new Size(Width, Height));
                 }
-
                 // Tạo một instance của form overlay và hiển thị hình ảnh chụp màn hình trên nó
-                overlayForm = new OverlayForm(screenshot);
+                overlayForm = new OverlayForm(screenshot  ); 
+                overlayForm.Location = new Point(0, 0);
+                overlayForm.Size = new Size(Width,  Height);
                 overlayForm.FormClosed += (sender, e) =>
                 {
-                    // Mã xử lý sau khi form overlay được đóng
-                    // ...
-
+                    // Mã xử lý sau khi form overlay được đóng 
                     new Thread(() =>
                     {
                         try
-                        {
-
-
+                        { 
                             Rectangle select = overlayForm.selection;
                             if (select.X == 0 && select.Y == 0 && select.Width == 0 && select.Height == 0) return;
                             Rectangle cropRectangle = new Rectangle(select.X, select.Y, select.Width, select.Height); // Thay thế x, y, width, height bằng kết quả rectangle của bạn
@@ -292,6 +309,7 @@ namespace D_Clipboards
                             staThread.SetApartmentState(ApartmentState.STA);
                             staThread.Start();
                             staThread.Join();
+                            overlayForm.screenshot.Dispose();
                             croppedImage.Dispose();
                         }
                         catch { }
@@ -301,9 +319,8 @@ namespace D_Clipboards
                     // Chạy các lệnh tiếp theo tại đây
                     // ...
                 };
-
-                overlayForm.Show();
-
+                
+                overlayForm.Show(); 
                 Application.Run();
 
                 // Giải phóng tài nguyên khi kết thúc chương trình
@@ -416,11 +433,7 @@ namespace D_Clipboards
         #endregion
 
         private void DClipboard_FormClosing(object sender, EventArgs e)
-        {
-           
-
-          
-
+        { 
         }
         void checkAppRunning() 
         {
@@ -455,6 +468,14 @@ namespace D_Clipboards
 
         private void DClipboard_Load(object sender, EventArgs e)
         {
+         
+
+
+
+
+
+
+
             checkAppRunning();
             loadSettings();
             Invoke(new Action(() =>
@@ -472,6 +493,8 @@ namespace D_Clipboards
             }));
 
         }
+
+
         void loadSettings()
         {
             try

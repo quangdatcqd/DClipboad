@@ -25,3 +25,30 @@ C:\Users\Administrator\Desktop\WORK\DClipboard\D_Clipboards\D_Clipboards\bin\Deb
 C:\Users\Administrator\Desktop\WORK\DClipboard\D_Clipboards\D_Clipboards\obj\Debug\D_Clipboards.OverlayForm.resources
 C:\Users\Administrator\Desktop\WORK\DClipboard\D_Clipboards\D_Clipboards\obj\Debug\D_Clipboards.csproj.Fody.CopyLocal.cache
 C:\Users\Administrator\Desktop\WORK\DClipboard\D_Clipboards\D_Clipboards\obj\Debug\D_Clipboards.csproj.Fody.RuntimeCopyLocal.cache
+D:\C# TOOL\DClipboad\D_Clipboards\bin\Debug\D_Clipboards.exe.config
+D:\C# TOOL\DClipboad\D_Clipboards\bin\Debug\D_Clipboards.exe
+D:\C# TOOL\DClipboad\D_Clipboards\bin\Debug\D_Clipboards.pdb
+D:\C# TOOL\DClipboad\D_Clipboards\bin\Debug\Microsoft.Bcl.AsyncInterfaces.xml
+D:\C# TOOL\DClipboad\D_Clipboards\bin\Debug\Newtonsoft.Json.xml
+D:\C# TOOL\DClipboad\D_Clipboards\bin\Debug\RestSharp.xml
+D:\C# TOOL\DClipboad\D_Clipboards\bin\Debug\SocketIOClient.xml
+D:\C# TOOL\DClipboad\D_Clipboards\bin\Debug\System.Buffers.xml
+D:\C# TOOL\DClipboad\D_Clipboards\bin\Debug\System.Diagnostics.DiagnosticSource.xml
+D:\C# TOOL\DClipboad\D_Clipboards\bin\Debug\System.Memory.xml
+D:\C# TOOL\DClipboad\D_Clipboards\bin\Debug\System.Numerics.Vectors.xml
+D:\C# TOOL\DClipboad\D_Clipboards\bin\Debug\System.Runtime.CompilerServices.Unsafe.xml
+D:\C# TOOL\DClipboad\D_Clipboards\bin\Debug\System.Text.Encodings.Web.xml
+D:\C# TOOL\DClipboad\D_Clipboards\bin\Debug\System.Text.Json.xml
+D:\C# TOOL\DClipboad\D_Clipboards\bin\Debug\System.Threading.Tasks.Extensions.xml
+D:\C# TOOL\DClipboad\D_Clipboards\bin\Debug\System.ValueTuple.xml
+D:\C# TOOL\DClipboad\D_Clipboards\obj\Debug\D_Clipboards.DClipboard.resources
+D:\C# TOOL\DClipboad\D_Clipboards\obj\Debug\D_Clipboards.OverlayForm.resources
+D:\C# TOOL\DClipboad\D_Clipboards\obj\Debug\D_Clipboards.Properties.Resources.resources
+D:\C# TOOL\DClipboad\D_Clipboards\obj\Debug\D_Clipboards.csproj.GenerateResource.cache
+D:\C# TOOL\DClipboad\D_Clipboards\obj\Debug\D_Clipboards.csproj.CoreCompileInputs.cache
+D:\C# TOOL\DClipboad\D_Clipboards\obj\Debug\D_Clipboards.csproj.Fody.CopyLocal.cache
+D:\C# TOOL\DClipboad\D_Clipboards\obj\Debug\D_Clipboards.csproj.Fody.RuntimeCopyLocal.cache
+D:\C# TOOL\DClipboad\D_Clipboards\obj\Debug\D_Clipboards.csproj.CopyComplete
+D:\C# TOOL\DClipboad\D_Clipboards\obj\Debug\D_Clipboards.exe
+D:\C# TOOL\DClipboad\D_Clipboards\obj\Debug\D_Clipboards.pdb
+D:\C# TOOL\DClipboad\D_Clipboards\obj\Debug\D_Clipboards.csproj.AssemblyReference.cache
